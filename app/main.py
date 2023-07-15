@@ -1,12 +1,14 @@
 from flask import Flask
 
-app = Flask(__name__)
-
-
-@app.route("/")
-def greet():
-    return {"message": "Hello World!"}
+from app.router import flights_api_v1
 
 
 if __name__ == "__main__":
+    app = Flask(__name__)
+    app.register_blueprint(flights_api_v1)
+
+    @app.route("/")
+    def greet():
+        return {"message": "Flask app is running!"}
+
     app.run(debug=True, port=8080)

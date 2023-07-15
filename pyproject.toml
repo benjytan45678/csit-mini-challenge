@@ -10,6 +10,8 @@ python = "^3.10"
 pre-commit = "^3.3.3"
 flask = "^2.3.2"
 flask-pymongo = "^2.3.0"
+werkzeug = "^2.3.6"
+python-decouple = "^3.8"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
