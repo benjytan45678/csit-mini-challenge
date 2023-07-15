@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["Ryan Cheung <ryan9cheung@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pre-commit = "^3.3.3"
+flask = "^2.3.2"
+flask-pymongo = "^2.3.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+force-exclude = '''
+(
+  /(
+      \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | poetry.lock
+  | pyproject.toml
+  | .md
+  | Dockerfile
+)
+'''
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
