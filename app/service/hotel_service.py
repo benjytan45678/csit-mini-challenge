@@ -1,47 +1,43 @@
 from app.database import db
-from app.util import formulate_date, get_days_between, add_days
+from app.util import formulate_date
 
 
-def read_hotel(checkInDate: str, checkOutDate: str, destination: str):
-    checkIn_datetime = formulate_date(checkInDate)
-    checkOut_datetime = formulate_date(checkOutDate)
-    no_of_days = get_days_between(checkIn_datetime, checkOut_datetime)
-    response = []
+def read_hotel(check_in_date: str, check_out_date: str, destination: str):
+    check_in_datetime = formulate_date(check_in_date)
+    check_out_datetime = formulate_date(check_out_date)
 
-    available_hotels = list(
-        db["hotels"]
-        .find(
-            filter={"city": destination},
-            projection=["hotelName"],
-        )
-        .distinct("hotelName")
-    )
+    aggregate_pipeline = [
+        {
+            "$match": {
+                "city": destination,
+                "date": {
+                    "$gte": check_in_datetime,
+                    "$lte": check_out_datetime,
+                },
+            }
+        },
+        {
+            "$group": {
+                "_id": "$hotelName",  # Group by hotel name
+                "City": {"$first": "$city"},
+                "Check In Date": {"$first": check_in_date},
+                "Check Out Date": {"$first": check_out_date},
+                "Hotel": {"$first": "$hotelName"},
+                "Price": {"$sum": "$price"},
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,  # Exclude the _id field from the result
+                "City": 1,
+                "Check In Date": 1,
+                "Check Out Date": 1,
+                "Hotel": 1,
+                "Price": 1,
+            }
+        },
+        {"$sort": {"Price": 1}},
+    ]
 
-    for hotel in available_hotels:
-        total_cost = 0
-        for day in range(no_of_days):
-            current_date = add_days(checkIn_datetime, day)
-            current_entry = list(
-                db["hotels"].find(
-                    filter={
-                        "city": destination,
-                        "hotelName": hotel,
-                        "date": current_date,
-                    }
-                )
-            )
-            # if the hotel does not offer any days in between the checkInDate and checkOutDate
-            if len(current_entry) == 0:
-                break
-            current_price = current_entry[0]["price"]
-            total_cost += current_price
-        res = {
-            "City": destination,
-            "Check In Date": checkInDate,
-            "Check Out Date": checkOutDate,
-            "Hotel": hotel,
-            "Price": total_cost,
-        }
-        response.append(res)
-    sorted_res = sorted(response, key=lambda x: int(x["Price"]))
-    return sorted_res
+    available_hotels = list(db["hotels"].aggregate(aggregate_pipeline))
+    return available_hotels

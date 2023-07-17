@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from werkzeug.exceptions import BadRequest
 
@@ -12,19 +12,3 @@ def formulate_date(date: str):
         return datetime(yyyy, mm, dd, 0, 0)
     except:
         raise BadRequest("Date is not properly formatted!")
-
-
-def get_days_between(date1: datetime, date2: datetime):
-    try:
-        diff = date2 - date1
-        if diff.days < 0:
-            raise Exception()
-        else:
-            return diff.days + 1
-    except:
-        raise BadRequest("checkOutDate should be after checkInDate!")
-
-
-def add_days(date: datetime, number: int):
-    new_date = date + timedelta(days=number)
-    return new_date
