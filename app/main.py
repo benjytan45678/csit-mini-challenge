@@ -1,5 +1,5 @@
 from flask import Flask
-from app.router import flight_api_v1, hotel_api_v1
+from router import flight_api_v1, hotel_api_v1
 
 
 if __name__ == "__main__":

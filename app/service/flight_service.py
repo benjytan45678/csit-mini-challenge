@@ -1,5 +1,5 @@
-from app.database import db
-from app.util import formulate_date
+from database import db
+from util import formulate_date
 
 
 def read_flight(departure_date: str, return_date: str, destination: str):

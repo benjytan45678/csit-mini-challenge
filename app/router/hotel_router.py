@@ -2,8 +2,8 @@ from flask import Blueprint, jsonify
 from flask import Blueprint
 from flask_pydantic import validate
 
-from app.schema import HotelQueryModel
-from app.service import read_hotel
+from schema import HotelQueryModel
+from service import read_hotel
 
 hotel_api_v1 = Blueprint(
     name="hotel_api_v1",

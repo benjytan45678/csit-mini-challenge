@@ -1,5 +1,5 @@
-from app.database import db
-from app.util import formulate_date
+from database import db
+from util import formulate_date
 
 
 def read_hotel(check_in_date: str, check_out_date: str, destination: str):

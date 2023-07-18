@@ -1,8 +1,8 @@
 from flask import Blueprint
 from flask_pydantic import validate
 
-from app.schema import FlightQueryModel
-from app.service import read_flight
+from schema import FlightQueryModel
+from service import read_flight
 
 flight_api_v1 = Blueprint(
     name="flight_api_v1",
