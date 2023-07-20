@@ -11,4 +11,4 @@ if __name__ == "__main__":
     def greet():
         return {"message": "Flask app is running!"}
 
-    app.run(debug=True, port=8080)
+    app.run(debug=True, host="0.0.0.0", port=8080)
