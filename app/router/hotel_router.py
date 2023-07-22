@@ -8,7 +8,7 @@ from service import read_hotel
 hotel_api_v1 = Blueprint(
     name="hotel_api_v1",
     import_name="hotel_api_v1",
-    url_prefix="/api/v1/hotel",
+    url_prefix="/hotel",
 )
 
 
