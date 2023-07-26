@@ -5,6 +5,11 @@ from werkzeug.local import LocalProxy
 
 
 def get_db():
+    """Sets or returns the database instance.
+
+    Returns:
+        db: Database object
+    """
     # g is the global context in Flask
     db = getattr(g, "_database", None)
     if db is None:
